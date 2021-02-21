@@ -16,6 +16,10 @@ GLSProgram::~GLSProgram()
 
 void GLSProgram::compileShaders(const std::string& vertexShaderFilePath, const std::string& fragmentsShaderFilePath)
 {
+	// Vertex and fragment shaders are successfully compiled.
+// Now time to link them together into a program.
+// Get a program object.
+	_programID = glCreateProgram();
 	//Setting the vertex shader ID
 	_vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 	if (_vertexShaderID == 0)
@@ -37,10 +41,7 @@ void GLSProgram::compileShaders(const std::string& vertexShaderFilePath, const s
 
 void GLSProgram::linkShaders()
 {
-	// Vertex and fragment shaders are successfully compiled.
-// Now time to link them together into a program.
-// Get a program object.
-	_programID = glCreateProgram();
+	
 
 	// Attach our shaders to our program
 	glAttachShader(_programID, _vertexShaderID);
@@ -70,8 +71,6 @@ void GLSProgram::linkShaders()
 		// Use the infoLog as you see fit.
 		std::printf("%s\n", &(errorLog[0]));
 		fatalError("Shader failed to link!");
-		// In this simple program, we'll just leave
-		return;
 	}
 
 	// Always detach shaders after a successful link.
@@ -102,6 +101,16 @@ void GLSProgram::unUse()
 	{
 		glDisableVertexAttribArray(i);
 	}
+}
+
+GLuint GLSProgram::getUniformLocation(const std::string& uniformName)
+{
+	GLuint location = glGetUniformLocation(_programID, uniformName.c_str());
+	if (location == GL_INVALID_INDEX)
+	{
+		fatalError("Uniform " + uniformName + " not found in shader!");
+	}
+	return location;
 }
 
 void GLSProgram::compileShader(const std::string& filePath, GLuint id)

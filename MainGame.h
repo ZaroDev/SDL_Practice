@@ -29,5 +29,8 @@ private:
 	int _screenHeight;
 
 	GLSProgram _colorProgram;
+
+
+	float _time;
 };
 
