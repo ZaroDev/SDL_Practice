@@ -5,14 +5,12 @@
 #include <glew.h>
 #include "Errors.h"
 
-
-
-
 MainGame::MainGame() : _screenWidth(1024), 
 	_screenHeight(768),
 	_time(0.0f),
 	_window(nullptr), 
 	_gameState(GameState::PLAY)
+
 {
 	
 }
